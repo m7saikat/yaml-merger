@@ -1,0 +1,28 @@
+ID: 1234
+date   : 2019-01-28
+Team:
+    given  : Morgan
+    family : Wise
+    address:
+        lines: |
+            231 Kendall Square
+            Cambridge
+        city    : Boston
+        state   : MA
+        postal  : 02134
+Manger: Morty Jones
+servers:
+    - tag         : HNDK03
+      core    : 4
+      OS : Ubuntu
+      RAM       : 512.00
+    - tag         : HDJ90H 
+      core    : 2
+      OS : CentOS
+      RAM       : 256.00
+tax  : 100
+total: 4000.52
+comments: >
+    Morgan owns this servers
+    and is responsible for any
+    post patching application deployment
