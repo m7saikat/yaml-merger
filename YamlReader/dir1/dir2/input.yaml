@@ -1,0 +1,20 @@
+ID: 1234
+Manger: Albus Dumbledor
+tax  : 100
+total: 1000.52
+Mentor: Neville Longbottom
+data:
+    given  : Luna
+    family : Lovegood
+    team: Editorial
+    remote: No
+    Gender: Female
+    skill: Spotting minute errors
+    address:
+        city    : Linconshire
+        state   : MA
+        postal  : 01109
+        street  : Hogsmead
+projects:
+    - Projects 9
+    - Project 8

@@ -12,7 +12,7 @@ class YamlReader:
     mergedDic = {}
 
     def showHelp(self):
-        print "usage:"+" yamlReader <Path to input file>"
+        print "usage: "+" yamlReader <Path to input file>"
 
     def validations(self):
         if len(sys.argv) < 2:
@@ -53,6 +53,7 @@ class YamlReader:
                 break
 
     def mergeDic(self, currentFileDic, childFileDic,dic):
+        # childFileDic = self.mergedDic
         for key in currentFileDic.keys():
             if key not in childFileDic.keys():
                 dic[key] = currentFileDic[key]
@@ -64,7 +65,6 @@ class YamlReader:
                 elif isinstance(childFileDic[key], list) and isinstance(currentFileDic[key], list):
                     dic[key] = currentFileDic[key] + childFileDic[key]
                 elif isinstance(childFileDic[key], dict) and isinstance(currentFileDic[key], dict):
-                    # dic[key] = defaultdict(dict)
                     if (key not in dic.keys()):
                         dic[key] = {}
                     self.mergeDic(currentFileDic[key], childFileDic[key], dic[key])
