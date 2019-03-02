@@ -1,18 +1,15 @@
 #! /user/bin/python
-import json
-import csv
-from collections import defaultdict
-import re
 import yaml
 import os
-# import requests
 import sys
+from collections import defaultdict
 
 class YamlReader:
     path = ""
     pathList = []
     fileName = ""
     mergedFile=''
+    mergedDic = {}
 
     def showHelp(self):
         print "usage:"+" yamlReader <Path to input file>"
@@ -29,23 +26,17 @@ class YamlReader:
             self.checkIfFileExits()
 
     def checkIfFileExits(self):
-        # print self.fileName.endswith('yaml')
         if not self.fileName.endswith('yaml') or self.fileName=="":
             print ("File not in YAML format or File not specified")
             exit(2)
-            # print self.path
-            # print os.path.exists(self.path)
         elif not os.path.exists(self.path):
             print ("Invalid Path or File does not exit")
             exit(3)
-        # elif not os.path.isfile(self.path):
-        #     print ("File does not exist")
 
-    def traverse(self):
+    def traverseAndMerge(self):
         self.validations()
         length = len(self.pathList)
-        previousFile=''
-        # currentFile = self.fileName
+        previousFile={}
         for i in range (0,len(self.pathList))[::-1]:
             path = '/'.join(self.pathList[0:i])
             # print path
@@ -53,52 +44,40 @@ class YamlReader:
                 currentFile = path+"/"+self.fileName
                 with open(currentFile, 'r') as fileC:
                     currentFileDic = yaml.load(fileC)
-                if previousFile!='':
-                    with open(previousFile, 'r') as fileP:
-                        previousFileDic = yaml.load(fileP)
-                    # print ("merge: " + currentFile + " : "+ previousFile )
-                    previousFile = self.mergeDic(currentFileDic,previousFileDic)
-                    # print previousFile
+                if any(previousFile.values()):
+                    self.mergeDic(currentFileDic,previousFile,self.mergedDic)
+                    previousFile = self.mergedDic
                 else:
-                    previousFile = currentFile
+                    previousFile = currentFileDic
             else:
                 break
 
-    def mergeDic(self, currentFileDic, childFileDic,):
+    def mergeDic(self, currentFileDic, childFileDic,dic):
+        for key in currentFileDic.keys():
+            if key not in childFileDic.keys():
+                dic[key] = currentFileDic[key]
 
-        def merge(key, valueChild, valueCurrent, mergeDic):
-            if isinstance(valueChild, float) or isinstance(valueChild, str):
-                mergeDic[key] = valueChild
-            elif isinstance(valueChild, list) and isinstance(valueChild, list):
-                mergeDic[key] = valueCurrent + valueChild
-            elif type(valueChild) == type({}) and type(valueCurrent) == type({}):
-                for k, val in valueChild.iteritems():
-                    if (k in valueCurrent.keys()):
-                         mergeDic[k] ={}
-                         print "==> ",valueChild, "\n" ,valueCurrent
-
-
-        mergedDic ={}
-        visited = []
         for key, value in childFileDic.iteritems():
             if key in currentFileDic.keys():
-                # print type(childFileDic[key]), childFileDic[key]
-                # == type(currentFileDic[key])
-                merge(key,childFileDic[key], currentFileDic[key], mergedDic)
-                # if isinstance(currentFileDic[key],dict) a
+                if isinstance(currentFileDic[key], float) or isinstance(childFileDic[key], str) or isinstance(childFileDic[key], int):
+                    dic[key] = childFileDic[key]
+                elif isinstance(childFileDic[key], list) and isinstance(currentFileDic[key], list):
+                    dic[key] = currentFileDic[key] + childFileDic[key]
+                elif isinstance(childFileDic[key], dict) and isinstance(currentFileDic[key], dict):
+                    # dic[key] = defaultdict(dict)
+                    if (key not in dic.keys()):
+                        dic[key] = {}
+                    self.mergeDic(currentFileDic[key], childFileDic[key], dic[key])
+            elif key not in currentFileDic.keys() and key in childFileDic.keys():
+                dic[key] = childFileDic[key]
 
-
-
-        # print mergedDic
-        # mergedDic.update(previousFileDic)
-        # print mergedDic
-        exit(1)
-        return currentFileDic
-
-
+    @property
+    def getMergedYaml(self):
+        return self.mergedDic
 
 if __name__ == "__main__":
     obj = YamlReader()
     # obj.validations()
-    obj.traverse();
+    obj.traverseAndMerge()
+    print obj.getMergedYaml
     print obj.fileName

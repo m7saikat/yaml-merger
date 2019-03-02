@@ -1,28 +1,17 @@
-ID: 34843
-date   : 2019-02-28
-Team:
-    given  : Stephen
-    family : Wadlow
+ID: 9234
+Manger: Yoda
+tax  : 100
+total: 4000.52
+Mentor: Obi-Won
+data:
+    given  : Anakin
+    family : Skywalker
+    team: Defense
+    skill: Force
+    Martial status: Married
+    Vehicle: Star Destroyer
     address:
-        lines: |
-            231 Kendall Square
-            Cambridge
-        city    : Boston
-        state   : MA
-        postal  : 02134
-Manger: Louise Johnson
-servers:
-    - tag         : BL394D
-      core    : 4
-      OS : Ubuntu
-      RAM       : 512.00
-    - tag         : BL4438H
-      core    : 2
-      OS : CentOS
-      RAM       : 256.00
-tax  : 251.42
-total: 4443.52
-comments: >
-    Stephen owns this servers
-    and is responsible for any
-    post patching application deployment
+        Planet    : Tatooine
+projects:
+    - Projects X
+    - Project 10
