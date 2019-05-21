@@ -7,7 +7,7 @@ The script takes in the path of the file as an argument. It traverses the direct
 The merge behaves as follows:-
   1) The child's primary data type supersedes parent's, however all values that are missing in child would be
     added to the merged file
-  2) The parent's anc the child's list would be concatenated.
+  2) The parent's and the child's list would be concatenated.
   3) For nested values, everything is preserved, however rule 1) and rule 2) still holds.
   
 The usage of the script is as follows:
